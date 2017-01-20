@@ -39,6 +39,12 @@
         <%= f.password_field :current_password, autocomplete: "off" %>
       </div>
 
+      <div class="field">
+        <%= f.label :role, class: 'checkbox' do %>
+          Premium (create private wiki) <%= f.check_box :role, {:style => "margin-left: 10px;"}, "premium", "standard"  %>
+        <% end %>
+      </div>
+
       <div class="actions">
         <%= f.submit "Update" %>
       </div>

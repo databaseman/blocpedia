@@ -9,18 +9,47 @@ User.create!(name:  "Minh",
              email: "nguyen_ba_minh@yahoo.com",
              password:              "password",
              password_confirmation: "password",
-             confirmed_at: Time.zone.now ).skip_confirmation!
+             confirmed_at: Time.zone.now,
+             role: 'admin').skip_confirmation!
 
-10.times do |n|
+User.create!(name:  "MinhStandard",
+             email: "mn_misc-000@yahoo.com",
+             password:              "password",
+             password_confirmation: "password",
+             confirmed_at: Time.zone.now,
+             role: 'standard').skip_confirmation!
+
+User.create!(name:  "MinhPremium",
+             email: "mn_misc-001@yahoo.com",
+             password:              "password",
+             password_confirmation: "password",
+             confirmed_at: Time.zone.now,
+             role: 'premium').skip_confirmation!
+
+5.times do |n|
    name  = Faker::Name.name
-   email = "example-#{n+1}@railstutorial.org"
+   email = "standard-#{n+1}@railstutorial.org"
    password = "password"
    User.create!(name:  name,
                 email: email,
                 password:              password,
                 password_confirmation: password,
-                confirmed_at: Time.zone.now ).skip_confirmation!
+                confirmed_at: Time.zone.now,
+                role: 'standard' ).skip_confirmation!
 end
+
+5.times do |n|
+   name  = Faker::Name.name
+   email = "premium-#{n+1}@railstutorial.org"
+   password = "password"
+   User.create!(name:  name,
+                email: email,
+                password:              password,
+                password_confirmation: password,
+                confirmed_at: Time.zone.now,
+                role: 'premium' ).skip_confirmation!
+end
+
 users=User.all
 
 # Microposts
@@ -28,7 +57,7 @@ users = User.order(:created_at).take(6)
 10.times do
   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
 end
-posts=Post.all?
+posts=Post.all
 
 puts "Seed finished"
 puts "#{User.count} users created"

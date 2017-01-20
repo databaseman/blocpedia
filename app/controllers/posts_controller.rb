@@ -1,8 +1,9 @@
 class PostsController < ApplicationController
 before_action :authenticate_user!
+before_action :authorize_user, except: [:index, :show, :create, :new]
 
   def index
-    @posts = Post.all
+    @posts = current_user.admin? ? Post.all : current_user.posts
   end
 
   def show
@@ -56,6 +57,14 @@ before_action :authenticate_user!
     else
       flash.now[:alert] = 'There was an error deleting the post.'
       render :show
+    end
+  end
+
+  def authorize_user
+    post = Post.find(params[:id])
+    unless current_user == post.user || current_user.admin?
+      flash[:alert] = 'You do not have permission.'
+      redirect_to posts_path
     end
   end
 
