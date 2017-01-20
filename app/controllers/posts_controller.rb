@@ -24,7 +24,6 @@ before_action :authorize_user_delete, only: [:destroy]
     @post = Post.find(params[:id])
     @post.title = params[:post][:title]
     @post.body = params[:post][:body]
-    @post.user = current_user
 
     if @post.save # Calling database save/insert command
       flash[:notice] = 'Post was saved.'
