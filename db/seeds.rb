@@ -52,11 +52,24 @@ end
 
 users=User.all
 
-# Microposts
-users = User.order(:created_at).take(6)
+# Microposts Non Premium
+users = User.where( "role = 0").take(6)
 10.times do
   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
 end
+
+# Public Microposts Premium
+users = User.where( "role = 1").take(6)
+10.times do
+  users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
+end
+
+# Private Microposts Premium
+users = User.where( "role = 1").take(6)
+10.times do
+  users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5), private: 1  ) }
+end
+
 posts=Post.all
 
 puts "Seed finished"
