@@ -3,9 +3,9 @@ before_action :authenticate_user!
 before_action :authorize_user_edit, only: [:edit]
 before_action :authorize_user_delete, only: [:destroy]
 
-
+# Show only public and own wiki
   def index
-    @posts = Post.all
+    @posts = Post.where( "private=0 OR user_id=?", params[current_user.id] )
   end
 
   def show
@@ -24,6 +24,7 @@ before_action :authorize_user_delete, only: [:destroy]
     @post = Post.find(params[:id])
     @post.title = params[:post][:title]
     @post.body = params[:post][:body]
+    @post.private = params[:post][:private]
 
     if @post.save # Calling database save/insert command
       flash[:notice] = 'Post was saved.'
@@ -38,6 +39,7 @@ before_action :authorize_user_delete, only: [:destroy]
     @post = Post.new
     @post.title = params[:post][:title]
     @post.body = params[:post][:body]
+    @post.private = params[:post][:private]
     @post.user = current_user
 
     if @post.save # Calling database save/insert command
