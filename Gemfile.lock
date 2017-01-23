@@ -56,6 +56,7 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
       mimemagic (>= 0.3.0)
+    coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.2.x)
@@ -285,6 +286,7 @@ GEM
       json (>= 1.8)
       nokogiri (~> 1.5)
       trollop (~> 2.1)
+    redcarpet (3.4.0)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     rest-client (2.0.0-x86-mingw32)
@@ -364,6 +366,7 @@ DEPENDENCIES
   bootstrap-will_paginate (= 0.0.10)
   byebug
   carrierwave (= 0.11.2)
+  coderay
   coffee-rails (~> 4.2)
   devise
   faker
@@ -378,6 +381,7 @@ DEPENDENCIES
   pundit
   rails (~> 5.0.1)
   rails_12factor
+  redcarpet
   rspec-rails
   sass-rails (~> 5.0)
   sqlite3

@@ -30,6 +30,8 @@ gem 'bootstrap-will_paginate', '0.0.10'
 gem 'bootstrap-sass', '3.3.6'
 gem 'pundit'
 gem 'stripe'
+gem 'redcarpet'
+gem 'coderay'
 
 gem 'carrierwave',             '0.11.2'
 gem 'mini_magick',             '4.5.1'

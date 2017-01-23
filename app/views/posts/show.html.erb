@@ -4,7 +4,7 @@
 </small>
 <div class="row">
   <div class="col-md-8">
-    <p><%= @post.body %></p>
+    <%= markdown(@post.body) %>
   </div>
 
   <% if user_authorized_for_edit_post?(@post) -%>
