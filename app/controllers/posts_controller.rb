@@ -5,7 +5,9 @@ before_action :authorize_user_delete, only: [:destroy]
 
 # Show only public and own wiki
   def index
-    @own_and_public_posts = Post.where( "private=0 OR user_id=?", current_user.id )
+    #@own_and_public_posts = Post.where( "private=0 OR user_id=?", current_user.id )
+    @own_and_public_posts = policy_scope(Post)
+    debugger
   end
 
   def show
