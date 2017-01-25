@@ -12,7 +12,7 @@
         <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter post body"%>
       </div>
 
-      <% if user_authorized_for_private_post? -%>
+      <% if policy(@post).private?  -%>
         <div class="field">
           <%= f.label :private, class: 'checkbox' do %>
             <%= f.check_box :private %> Private
