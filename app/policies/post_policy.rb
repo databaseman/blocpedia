@@ -5,7 +5,7 @@ class PostPolicy < ApplicationPolicy
         scope.all
       else
         scope.where( "private=0 OR user_id=?", user.id )
-        debugger
+        #debugger
       end
     end
   end
