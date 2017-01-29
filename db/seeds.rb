@@ -8,29 +8,10 @@
 
 User.delete_all
 Post.delete_all
+Collaborator.delete_all
 
-User.create!(name:  "Minh",
-             email: "nguyen_ba_minh@yahoo.com",
-             password:              "password",
-             password_confirmation: "password",
-             confirmed_at: Time.zone.now,
-             role: 'admin').skip_confirmation!
-
-User.create!(name:  "MinhStandard",
-             email: "mn_misc-000@yahoo.com",
-             password:              "password",
-             password_confirmation: "password",
-             confirmed_at: Time.zone.now,
-             role: 'standard').skip_confirmation!
-
-User.create!(name:  "MinhPremium",
-             email: "mn_misc-001@yahoo.com",
-             password:              "password",
-             password_confirmation: "password",
-             confirmed_at: Time.zone.now,
-             role: 'premium').skip_confirmation!
-
-5.times do |n|
+# create 5 standard users
+6.times do |n|
    name  = Faker::Name.name
    email = "standard-#{n+1}@railstutorial.org"
    password = "password"
@@ -39,10 +20,11 @@ User.create!(name:  "MinhPremium",
                 password:              password,
                 password_confirmation: password,
                 confirmed_at: Time.zone.now,
-                role: 'standard' ).skip_confirmation!
+                role: 'standard' )
 end
 
-5.times do |n|
+# Create 5 premium users
+6.times do |n|
    name  = Faker::Name.name
    email = "premium-#{n+1}@railstutorial.org"
    password = "password"
@@ -51,31 +33,42 @@ end
                 password:              password,
                 password_confirmation: password,
                 confirmed_at: Time.zone.now,
-                role: 'premium' ).skip_confirmation!
+                role: 'premium' )
 end
 
-users=User.all
-
-# Microposts Non Premium
+# Standard users Public Microposts
 users = User.where( "role = 0").take(6)
-10.times do
+4.times do
   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
 end
 
-# Public Microposts Premium
+# Premium users Public Microposts
 users = User.where( "role = 1").take(6)
-10.times do
+4.times do
   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
 end
 
-# Private Microposts Premium
+# Premium users Private Microposts
 users = User.where( "role = 1").take(6)
-10.times do
+4.times do
   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5), private: 1  ) }
 end
 
-posts=Post.all
+# Standard users Collaborators.
+users = User.where( "role = 0").take(2)
+users.each do |user|
+  post=Post.where.not( user: user, private: 0).take(2)
+  post.each { |post| Collaborator.create!( user: user, post: post ) }
+end
+
+# Premium users Collaborators.
+users = User.where( "role = 1").take(2)
+users.each do |user|
+  post=Post.where.not( user: user, private: 0).take(2)
+  post.each { |post| Collaborator.create!( user: user, post: post ) }
+end
 
 puts "Seed finished"
 puts "#{User.count} users created"
 puts "#{Post.count} posts created"
+puts "#{Collaborator.count} collaborators created"
