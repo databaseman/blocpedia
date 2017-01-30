@@ -6,7 +6,7 @@ class ChargesController < ApplicationController
   end
 
   def downgrade
-    @private_posts = Post.where( "private='t' AND user_id=?", current_user.id ) # User private wiki list
+    @private_posts = current_user.posts.where("private = 't'") # User private wiki list
   end
 
   def downgrade_posts

@@ -18,6 +18,13 @@ module ApplicationHelper
     current_user == post.user || current_user.admin? || !post.private?
   end
 
+  def user_authorized_for_collaboration_post?(post)
+    (current_user == post.user || current_user.admin?) && post.private?
+  end
+
+  def user_part_of_collaboration?( user, post)
+      Collaborator.where( user_id: user.id, post_id: post.id ).count
+  end
   # Replaced by Pundit
   #def user_authorized_for_private_post?
   #  current_user.role == "premium" || current_user.admin?
