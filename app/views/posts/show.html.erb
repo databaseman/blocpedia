@@ -17,9 +17,11 @@
       <%= link_to "Delete", @post, method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this post?'} %>
     </div>
   <% end -%>
+  <!--
   <% if user_authorized_for_collaboration_post?(@post) -%>
     <div class="col-md-4">
       <%= link_to "Collaboration", edit_collaborator_path(@post), class: 'btn btn-primary' %>
     </div>
   <% end -%>
+  -->  
 </div>

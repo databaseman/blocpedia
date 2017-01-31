@@ -12,17 +12,11 @@
       <h3>Access</h3>
     </div>
   </div>
-  <% @users.each do |user| %>
-   <div class="row">
-     <div class="col-sm-3 center">
-        <%= user.name %>
-     </div>
-     <div class="col-sm-3 center">
-        <%= user.email %>
-     </div>
-     <div class="col-sm-1">
-       <%= user_part_of_collaboration?( user, @post) %>
-     </div>
-   </div>
-  <% end %>
+  <%= form_for @post do |f| %>
+    <% @users.each do |user| %>
+      <%= user.name %> (<%= user.email %>)
+      <%= check_box_tag "@post.user_collaborator_ids[]", user.id, @post.user_collaborator_ids.include?(user.id) %> <br>
+    <% end %>
+  <%= f.submit "Save", class: 'btn btn-success' %>
+<% end %>
 </div>

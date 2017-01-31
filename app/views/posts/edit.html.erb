@@ -2,12 +2,14 @@
   <div class="col-md-6 col-md-offset-3">
     <h1> Edit Post </h1>
     <%= form_for @post do |f| %>
-      <%= f.label :title %>
-      <%= f.text_field :title, class: 'form-control', placeholder: "Enter post title" %>
-
-      <%= f.label :body %>
-      <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter post body"%>
-
+      <div class="field">
+        <%= f.label :title %>
+        <%= f.text_field :title, class: 'form-control', placeholder: "Enter post title" %>
+      </div>
+      <div class="field">
+        <%= f.label :body %>
+        <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter post body"%>
+      </div>
       <% if policy(@post).private? -%>
         <div class="field">
           <%= f.label :private, class: 'checkbox' do %>
@@ -15,6 +17,12 @@
           <% end %>
         </div>
       <% end %>
+      <div class="field">
+          <% User.where.not(id: current_user.id).each do |user| %>
+            <%= check_box_tag "@post.user_collaborator_ids[]", user.id, @post.user_collaborator_ids.include?(user.id) %>
+            <%= user.name %> <br>
+          <% end %>
+      </div>
 
       <%= f.submit "Save", class: 'btn btn-success' %>
     <% end %>

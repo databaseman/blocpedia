@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
          :confirmable
   validates :name,  presence: true, length: { maximum: 50 }
   has_many :posts, dependent: :destroy
-  has_many :collaborators, dependent: :destroy
+  has_many :collaborators
+  has_many :post_collaborators, through: :collaborators, source: :post
   before_save { self.role ||= :standard }
 
   enum role: [:standard, :premium, :admin]

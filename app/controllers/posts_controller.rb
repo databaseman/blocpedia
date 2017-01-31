@@ -27,7 +27,8 @@ before_action :authorize_user_delete, only: [:destroy]
     @post.title = params[:post][:title]
     @post.body = params[:post][:body]
     @post.private = params[:post][:private]
-
+    debugger
+    
     if @post.save # Calling database save/insert command
       flash[:notice] = 'Post was saved.'
       redirect_to @post # Redirecting to @post will direct the user to the posts show view.
