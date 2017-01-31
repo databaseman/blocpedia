@@ -19,7 +19,7 @@
       <% end %>
       <div class="field">
           <% User.where.not(id: current_user.id).each do |user| %>
-            <%= check_box_tag "@post.user_collaborator_ids[]", user.id, @post.user_collaborator_ids.include?(user.id) %>
+            <%= check_box_tag "@post.user_collaborator_ids[user_ids][]", user.id, @post.user_collaborator_ids.include?(user.id) %>
             <%= user.name %> <br>
           <% end %>
       </div>
