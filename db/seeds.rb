@@ -10,7 +10,7 @@ User.delete_all
 Post.delete_all
 Collaborator.delete_all
 
-# create 5 standard users
+# create standard users
 6.times do |n|
    name  = Faker::Name.name
    email = "standard-#{n+1}@railstutorial.org"
@@ -23,7 +23,7 @@ Collaborator.delete_all
                 role: 'standard' )
 end
 
-# Create 5 premium users
+# Create premium users
 6.times do |n|
    name  = Faker::Name.name
    email = "premium-#{n+1}@railstutorial.org"
@@ -55,18 +55,18 @@ users = User.where( "role = 1").take(6)
 end
 
 # Standard users Collaborators.
-users = User.where( "role = 0").take(2)
-users.each do |user|
-  post=Post.where.not( user: user, private: 0).take(2)
-  post.each { |post| Collaborator.create!( user: user, post: post ) }
-end
+#users = User.where( "role = 0").take(2)
+#users.each do |user|
+#  post=Post.where.not( user: user, private: 0).take(2)
+#  post.each { |post| Collaborator.create!( user: user, post: post ) }
+#end
 
 # Premium users Collaborators.
-users = User.where( "role = 1").take(2)
-users.each do |user|
-  post=Post.where.not( user: user, private: 0).take(2)
-  post.each { |post| Collaborator.create!( user: user, post: post ) }
-end
+#users = User.where( "role = 1").take(2)
+#users.each do |user|
+#  post=Post.where.not( user: user, private: 0).take(2)
+#  post.each { |post| Collaborator.create!( user: user, post: post ) }
+#end
 
 puts "Seed finished"
 puts "#{User.count} users created"

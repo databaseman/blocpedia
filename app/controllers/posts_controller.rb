@@ -1,13 +1,11 @@
 class PostsController < ApplicationController
 before_action :authenticate_user!
-before_action :authorize_user_edit, only: [:edit]
+before_action :authorize_user_edit, only: [:edit, :show, :destroy ]
 before_action :authorize_user_delete, only: [:destroy]
 
 # Show only public and own wiki
   def index
-    #@own_and_public_posts = Post.where( "private=0 OR user_id=?", current_user.id )
     @own_and_public_posts = policy_scope(Post)
-    #debugger
   end
 
   def show
@@ -26,8 +24,10 @@ before_action :authorize_user_delete, only: [:destroy]
     @post = Post.find(params[:id])
     @post.title = params[:post][:title]
     @post.body = params[:post][:body]
-    @post.private = params[:post][:private]
-    #debugger
+
+    if helpers.user_authorized_for_private_checkbox?(@post)
+      @post.private = params[:post][:private]
+    end
 
     if @post.save # Calling database save/insert command
       flash[:notice] = 'Post was saved.'
@@ -68,7 +68,7 @@ before_action :authorize_user_delete, only: [:destroy]
 
   def authorize_user_edit
     post = Post.find(params[:id])
-    unless current_user == post.user || current_user.admin? || !post.private?
+    unless helpers.user_authorized_for_edit_post?(post)
       flash[:alert] = 'You do not have permission.'
       redirect_to posts_path
     end
@@ -76,7 +76,7 @@ before_action :authorize_user_delete, only: [:destroy]
 
   def authorize_user_delete
     post = Post.find(params[:id])
-    unless current_user == post.user || current_user.admin?
+    unless helpers.user_authorized_for_delete_post?(post)
       flash[:alert] = 'You do not have permission.'
       redirect_to posts_path
     end

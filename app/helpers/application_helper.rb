@@ -15,16 +15,17 @@ module ApplicationHelper
   end
 
   def user_authorized_for_edit_post?(post)
-    current_user == post.user || current_user.admin? || !post.private?
+    current_user == post.user || current_user.admin? || !post.private? || post.user_collaborators.include?(current_user)
   end
 
   def user_authorized_for_collaboration_post?(post)
     (current_user == post.user || current_user.admin?) && post.private?
   end
 
-  def user_part_of_collaboration?( user, post)
-      Collaborator.where( user_id: user.id, post_id: post.id ).count
+  def user_authorized_for_private_checkbox?(post)
+     current_user.admin? || (current_user.premium? && current_user == post.user)
   end
+
   # Replaced by Pundit
   #def user_authorized_for_private_post?
   #  current_user.role == "premium" || current_user.admin?

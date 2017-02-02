@@ -1,22 +1,25 @@
 <h1> Add / Remove Collaborators </h1>
 <h2>Title: <%= @post.title %></h2>
 <div>
+
   <div class="row">
     <div class="col-sm-3 center">
       <h3>Name</h3>
     </div>
     <div class="col-sm-3 center">
-      <h3>Email</h3>
     </div>
     <div class="col-sm-1 center">
       <h3>Access</h3>
     </div>
   </div>
-  <%= form_for @post do |f| %>
+
+  <%= form_for @post, url: post_collaborator_path do |f| %>
+    <%= hidden_field_tag "@post.user_collaborator_ids[user_ids][]", nil %>
     <% @users.each do |user| %>
-      <%= user.name %> (<%= user.email %>)
-      <%= check_box_tag "@post.user_collaborator_ids[]", user.id, @post.user_collaborator_ids.include?(user.id) %> <br>
+      <%= check_box_tag "@post.user_collaborator_ids[user_ids][]", user.id, @post.user_collaborator_ids.include?(user.id) %>
+      <%= user.name %> (<%= user.email %>)<br>
     <% end %>
-  <%= f.submit "Save", class: 'btn btn-success' %>
-<% end %>
+    <%= f.submit "Save", class: 'btn btn-success' %>
+  <% end %>
+
 </div>

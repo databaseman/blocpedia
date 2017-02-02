@@ -10,20 +10,13 @@
         <%= f.label :body %>
         <%= f.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter post body"%>
       </div>
-      <% if policy(@post).private? -%>
+      <% if user_authorized_for_private_checkbox?(@post) -%>
         <div class="field">
           <%= f.label :private, class: 'checkbox' do %>
             <%= f.check_box :private %> Private
           <% end %>
         </div>
       <% end %>
-      <div class="field">
-          <% User.where.not(id: current_user.id).each do |user| %>
-            <%= check_box_tag "@post.user_collaborator_ids[user_ids][]", user.id, @post.user_collaborator_ids.include?(user.id) %>
-            <%= user.name %> <br>
-          <% end %>
-      </div>
-
       <%= f.submit "Save", class: 'btn btn-success' %>
     <% end %>
   </div>

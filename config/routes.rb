@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  resources :collaborators
+  root 'welcome#index'
   resources :charges
   get 'downgrade' => 'charges#downgrade'
   post 'downgrade' => 'charges#downgrade_posts'
-  resources :posts
   devise_for :users
-  root 'welcome#index'
+  resources :posts do
+    resources :collaborators
+  end
 end
