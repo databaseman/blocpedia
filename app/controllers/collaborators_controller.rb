@@ -36,7 +36,8 @@ before_action :authorize_user_delete, only: [:destroy]
   def destroy
     @collaborator = Collaborator.find(params[:id])
     @user=User.find( @collaborator.user_id )
-
+    debugger
+    
     if @collaborator.destroy
       flash[:notice] = "\"#{@user.email}\" was removed successfully."
       redirect_to action: "show", id: @collaborator.post_id
@@ -55,7 +56,7 @@ before_action :authorize_user_delete, only: [:destroy]
   end
 
   def authorize_user_delete
-    post = Post.find(params[:id])
+    post = Post.find(params[:post_id])
     unless helpers.user_authorized_for_delete_post?(post)
       flash[:alert] = 'You do not have permission.'
       redirect_to posts_path

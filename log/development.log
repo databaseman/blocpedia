@@ -1,0 +1,1283 @@
+  [1m[35m (10.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (10.8ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseCreateUsers (20170117000209)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "confirmation_token" varchar, "confirmed_at" datetime, "confirmation_sent_at" datetime, "unconfirmed_email" varchar, "failed_attempts" integer DEFAULT 0 NOT NULL, "unlock_token" varchar, "locked_at" datetime, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mselect sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170117000209"]]
+  [1m[35m (9.9ms)[0m  [1m[36mcommit transaction[0m
+Migrating to AddNameToUsers (20170118023552)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "users" ADD "name" varchar[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170118023552"]]
+  [1m[35m (10.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreatePosts (20170118231155)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_posts_on_user_id" ON "posts" ("user_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170118231155"]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+Migrating to AddRoleToUsers (20170119230619)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "users" ADD "role" integer[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170119230619"]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+Migrating to AddPrivateToPosts (20170120165609)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "posts" ADD "private" boolean DEFAULT 0[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170120165609"]]
+  [1m[35m (15.8ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCollaborators (20170127000858)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "collaborators" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "post_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_collaborators_on_user_id" ON "collaborators" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_collaborators_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_collaborators_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_collaborators_on_post_id" ON "collaborators" ("post_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20170127000858"]]
+  [1m[35m (7.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", 2017-02-11 23:38:57 UTC], ["updated_at", 2017-02-11 23:38:57 UTC]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_collaborators_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_collaborators_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_collaborators_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_collaborators_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", :environment]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", :environment]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", :environment]]
+DEPRECATION WARNING: Passing #original_exception is deprecated and has no effect. Exceptions will automatically capture the original exception. (called from load at /usr/local/rvm/gems/ruby-2.3.0/bin/rake:23)
+  [1m[35m (12.4ms)[0m  [1m[35mCREATE TABLE "collaborators" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "post_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mselect sqlite_version(*)[0m
+  [1m[35m (9.1ms)[0m  [1m[35mCREATE  INDEX "index_collaborators_on_post_id" ON "collaborators" ("post_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_collaborators_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_collaborators_on_post_id' AND type='index'
+[0m
+  [1m[35m (7.1ms)[0m  [1m[35mCREATE  INDEX "index_collaborators_on_user_id" ON "collaborators" ("user_id")[0m
+  [1m[35m (9.8ms)[0m  [1m[35mCREATE TABLE "posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "private" boolean DEFAULT 'f')[0m
+  [1m[35m (9.2ms)[0m  [1m[35mCREATE  INDEX "index_posts_on_user_id" ON "posts" ("user_id")[0m
+  [1m[35m (8.7ms)[0m  [1m[35mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "confirmation_token" varchar, "confirmed_at" datetime, "confirmation_sent_at" datetime, "unconfirmed_email" varchar, "failed_attempts" integer DEFAULT 0 NOT NULL, "unlock_token" varchar, "locked_at" datetime, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "name" varchar, "role" integer)[0m
+  [1m[35m (9.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.4ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[35m (8.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (11.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (9.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES ('20170127000858')[0m
+  [1m[35m (7.9ms)[0m  [1m[32mINSERT INTO schema_migrations (version) VALUES
+('20170119230619'),
+('20170118231155'),
+('20170120165609'),
+('20170118023552'),
+('20170117000209');
+
+[0m
+  [1m[35m (10.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", 2017-02-11 23:39:10 UTC], ["updated_at", 2017-02-11 23:39:10 UTC]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (9.2ms)[0m  [1m[35mCREATE TABLE "collaborators" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "post_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mselect sqlite_version(*)[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE  INDEX "index_collaborators_on_post_id" ON "collaborators" ("post_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_collaborators_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_collaborators_on_post_id' AND type='index'
+[0m
+  [1m[35m (7.6ms)[0m  [1m[35mCREATE  INDEX "index_collaborators_on_user_id" ON "collaborators" ("user_id")[0m
+  [1m[35m (6.8ms)[0m  [1m[35mCREATE TABLE "posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "private" boolean DEFAULT 'f')[0m
+  [1m[35m (7.5ms)[0m  [1m[35mCREATE  INDEX "index_posts_on_user_id" ON "posts" ("user_id")[0m
+  [1m[35m (9.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "confirmation_token" varchar, "confirmed_at" datetime, "confirmation_sent_at" datetime, "unconfirmed_email" varchar, "failed_attempts" integer DEFAULT 0 NOT NULL, "unlock_token" varchar, "locked_at" datetime, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "name" varchar, "role" integer)[0m
+  [1m[35m (7.8ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.2ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[35m (9.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (9.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (7.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES ('20170127000858')[0m
+  [1m[35m (7.9ms)[0m  [1m[32mINSERT INTO schema_migrations (version) VALUES
+('20170119230619'),
+('20170118231155'),
+('20170120165609'),
+('20170118023552'),
+('20170117000209');
+
+[0m
+  [1m[35m (10.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", 2017-02-11 23:39:11 UTC], ["updated_at", 2017-02-11 23:39:11 UTC]]
+  [1m[35m (6.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mSQL (11.1ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[35mSQL (9.2ms)[0m  [1m[31mDELETE FROM "posts"[0m
+  [1m[35mSQL (7.5ms)[0m  [1m[31mDELETE FROM "collaborators"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "standard-1@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "standard-1@railstutorial.org"], ["encrypted_password", "$2a$11$9W89xK50SK4ObyuASDTprOaQbNEDl6l/tI/0uORqh47Ey2627d5vm"], ["confirmed_at", 2017-02-11 23:39:11 UTC], ["created_at", 2017-02-11 23:39:11 UTC], ["updated_at", 2017-02-11 23:39:11 UTC], ["name", "Miss Nicholaus Bechtelar"], ["role", 0]]
+  [1m[35m (8.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "standard-2@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "standard-2@railstutorial.org"], ["encrypted_password", "$2a$11$/Dpq7oWE7mGyTrIkNsLv9OTB2pXl9S/lexvBhVoFio4WJJ8nOmqJ."], ["confirmed_at", 2017-02-11 23:39:11 UTC], ["created_at", 2017-02-11 23:39:11 UTC], ["updated_at", 2017-02-11 23:39:11 UTC], ["name", "Mrs. Thomas Corwin"], ["role", 0]]
+  [1m[35m (10.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "standard-3@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "standard-3@railstutorial.org"], ["encrypted_password", "$2a$11$guqyjpduwFY.Lwo5EzoCZuL9a/utXMktMPbZHYuzMqsnrljVMD.IO"], ["confirmed_at", 2017-02-11 23:39:12 UTC], ["created_at", 2017-02-11 23:39:12 UTC], ["updated_at", 2017-02-11 23:39:12 UTC], ["name", "Xander Schoen"], ["role", 0]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "standard-4@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "standard-4@railstutorial.org"], ["encrypted_password", "$2a$11$KF/5p/k704Ru3AUfZhCsv.O6yNn.nh3IqiRCpfWL.plBZFmon07.6"], ["confirmed_at", 2017-02-11 23:39:12 UTC], ["created_at", 2017-02-11 23:39:12 UTC], ["updated_at", 2017-02-11 23:39:12 UTC], ["name", "Lisa Kertzmann"], ["role", 0]]
+  [1m[35m (8.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "standard-5@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "standard-5@railstutorial.org"], ["encrypted_password", "$2a$11$0Odv8Tr9n3MU9ibewmQb/up2wHj2P06KpS8xBgskfCd4L9GZMpNnG"], ["confirmed_at", 2017-02-11 23:39:12 UTC], ["created_at", 2017-02-11 23:39:12 UTC], ["updated_at", 2017-02-11 23:39:12 UTC], ["name", "Lilliana Strosin III"], ["role", 0]]
+  [1m[35m (11.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "standard-6@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "standard-6@railstutorial.org"], ["encrypted_password", "$2a$11$J/az1du5tRszWHIlu9oXcOIBZGZtT3ZkWL7QXiQ6OUUYzI1rBfD5i"], ["confirmed_at", 2017-02-11 23:39:12 UTC], ["created_at", 2017-02-11 23:39:12 UTC], ["updated_at", 2017-02-11 23:39:12 UTC], ["name", "Andreanne Bogan"], ["role", 0]]
+  [1m[35m (11.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "premium-1@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "premium-1@railstutorial.org"], ["encrypted_password", "$2a$11$8VmmS4Ki8HJ7hMwTxbEMjuxgCvkLF0f1GH3Tz8wonjMwiUY5hD8TS"], ["confirmed_at", 2017-02-11 23:39:12 UTC], ["created_at", 2017-02-11 23:39:12 UTC], ["updated_at", 2017-02-11 23:39:12 UTC], ["name", "Ayla Larson"], ["role", 1]]
+  [1m[35m (10.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "premium-2@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "premium-2@railstutorial.org"], ["encrypted_password", "$2a$11$nMoMBYoND3A8i6MTyq0XK.OWmmSP90I9xjyHcS2dUaIr6YidBmKgC"], ["confirmed_at", 2017-02-11 23:39:12 UTC], ["created_at", 2017-02-11 23:39:12 UTC], ["updated_at", 2017-02-11 23:39:12 UTC], ["name", "Keshawn Haag"], ["role", 1]]
+  [1m[35m (12.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "premium-3@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "premium-3@railstutorial.org"], ["encrypted_password", "$2a$11$tJz9fxZR6A.QSRmOmYKX9OT..i7gQo68HlEtUJe.MZSqSfG4V4z3G"], ["confirmed_at", 2017-02-11 23:39:12 UTC], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC], ["name", "Suzanne Legros Sr."], ["role", 1]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "premium-4@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "premium-4@railstutorial.org"], ["encrypted_password", "$2a$11$qEQsjEkw35SUmXJJIL84E.DJ7TpNZPkwg62meq37vhjX/812qtFeK"], ["confirmed_at", 2017-02-11 23:39:13 UTC], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC], ["name", "Delfina Gerhold Sr."], ["role", 1]]
+  [1m[35m (10.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "premium-5@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "premium-5@railstutorial.org"], ["encrypted_password", "$2a$11$T8B.dpxnXRcAqMJLzbkxx.9aRBApNp1zSu3Tk73QR/g9N.2BjXpeK"], ["confirmed_at", 2017-02-11 23:39:13 UTC], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC], ["name", "Johnathon Jacobson"], ["role", 1]]
+  [1m[35m (9.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "premium-6@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "confirmed_at", "created_at", "updated_at", "name", "role") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["email", "premium-6@railstutorial.org"], ["encrypted_password", "$2a$11$sdROWR0XEG2Yeht2XIaAj.C4pFh7FPlHE0P8Kv80E91UOz/90fmaK"], ["confirmed_at", 2017-02-11 23:39:13 UTC], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC], ["name", "Zella Cummings"], ["role", 1]]
+  [1m[35m (9.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE (role = 0) LIMIT ?[0m  [["LIMIT", 6]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Et quam architecto quia."], ["body", "Consequuntur ut dolores doloremque assumenda natus quas."], ["user_id", 1], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Fuga facere culpa."], ["body", "Sapiente est suscipit aut quasi neque fugiat eos accusantium enim."], ["user_id", 2], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Non est aliquam nostrum."], ["body", "Placeat consequatur et voluptates provident laboriosam molestiae."], ["user_id", 3], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (15.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Possimus."], ["body", "Id eligendi neque ex earum nam aliquam culpa cupiditate."], ["user_id", 4], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Omnis."], ["body", "Delectus vero beatae consequuntur et nobis debitis."], ["user_id", 5], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Esse sequi perferendis quia."], ["body", "Accusamus repudiandae doloremque qui ea ea fugiat maiores blanditiis."], ["user_id", 6], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Dolor sed ut repellat consectetur odit."], ["body", "Dolor magnam quia est veritatis voluptatem aperiam."], ["user_id", 1], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Ut ut et."], ["body", "Praesentium nobis et optio necessitatibus et."], ["user_id", 2], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (10.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Rem et nesciunt."], ["body", "Adipisci culpa quasi ut et."], ["user_id", 3], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Facere autem deserunt corporis quo."], ["body", "Blanditiis esse qui voluptas cum dolores consequatur et sunt est."], ["user_id", 4], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "At optio qui ut."], ["body", "Minus quas magni eveniet quasi non a praesentium sit sed."], ["user_id", 5], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Sit dolorem eum laudantium nostrum."], ["body", "Aut veniam sint enim at molestiae ad sequi."], ["user_id", 6], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Qui optio omnis nisi unde."], ["body", "Hic non atque et voluptatem excepturi error sunt."], ["user_id", 1], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Quis optio non."], ["body", "Voluptatibus nihil necessitatibus perferendis voluptas enim in impedit at."], ["user_id", 2], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Animi quibusdam hic eum."], ["body", "Deserunt ut ad iure et nisi vitae."], ["user_id", 3], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Quis ut."], ["body", "Blanditiis ipsa voluptatibus odit qui natus consectetur suscipit."], ["user_id", 4], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Rerum quia iure quis."], ["body", "Rerum ipsam necessitatibus id tempora sunt voluptas."], ["user_id", 5], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (7.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Dolor dolorem."], ["body", "Natus ducimus voluptas facere dolorum aut ut cupiditate."], ["user_id", 6], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Quia perspiciatis natus labore voluptas aperiam."], ["body", "Quas et eos laboriosam iusto ducimus occaecati voluptatem et."], ["user_id", 1], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Labore in sed ipsam."], ["body", "Ipsam rerum sed perferendis laudantium et atque placeat expedita accusamus."], ["user_id", 2], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Doloribus quod occaecati."], ["body", "Tenetur molestiae consectetur aut ut non incidunt enim."], ["user_id", 3], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Omnis et exercitationem."], ["body", "Atque quisquam nostrum optio numquam iure ut."], ["user_id", 4], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Voluptas et dolorum provident."], ["body", "Perferendis qui soluta atque expedita sunt."], ["user_id", 5], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "At id velit tempora."], ["body", "Eius est voluptatem nisi velit et voluptatum quia maiores."], ["user_id", 6], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (7.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE (role = 1) LIMIT ?[0m  [["LIMIT", 6]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Enim voluptatem nam beatae voluptates temporibus."], ["body", "Provident dolorem sit iste voluptas quisquam pariatur neque."], ["user_id", 7], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Vel debitis."], ["body", "Magni natus laboriosam harum est."], ["user_id", 8], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Autem."], ["body", "Rem aut dolorum aut in tempore."], ["user_id", 9], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (9.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Maiores et est eos aut sed."], ["body", "Corrupti quo voluptatibus ut vel."], ["user_id", 10], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (7.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Harum nam porro ut ea distinctio."], ["body", "Soluta doloribus ducimus et ipsa porro ut quas sed quis."], ["user_id", 11], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Vel culpa molestiae architecto."], ["body", "Consequatur itaque quam error officiis ullam maxime non voluptatibus."], ["user_id", 12], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (10.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Molestias nam sunt facere voluptatem."], ["body", "A doloremque debitis consequatur error aut nesciunt ipsa."], ["user_id", 7], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Iusto minima sit."], ["body", "Est sit dolorem repellat corporis eos sint molestiae iste."], ["user_id", 8], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Ut ab ullam laudantium."], ["body", "Est illo quia voluptatem est voluptatem autem et voluptas culpa."], ["user_id", 9], ["created_at", 2017-02-11 23:39:13 UTC], ["updated_at", 2017-02-11 23:39:13 UTC]]
+  [1m[35m (8.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Voluptatibus aperiam voluptatem quis blanditiis."], ["body", "Nam minima quia omnis quia."], ["user_id", 10], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (8.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Vel dolor hic est."], ["body", "Voluptatem modi quo molestiae quos est veritatis commodi maiores."], ["user_id", 11], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Molestiae modi."], ["body", "Sequi ducimus exercitationem dolorum vero est deserunt commodi."], ["user_id", 12], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (9.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Aut consectetur qui officiis rerum."], ["body", "Asperiores deleniti sit ullam est."], ["user_id", 7], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Repellat magni laudantium iste."], ["body", "Atque sit odit temporibus et et quia."], ["user_id", 8], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Quo commodi dolores."], ["body", "Veritatis minus labore esse veniam cum voluptatem magni ut voluptate."], ["user_id", 9], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (16.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Eum."], ["body", "Alias voluptatem incidunt sed iure eaque."], ["user_id", 10], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (11.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Asperiores dolores eius sint reiciendis."], ["body", "Qui nobis ea vel quae voluptates."], ["user_id", 11], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (7.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Enim."], ["body", "Omnis iste officia quo velit dignissimos quos id accusamus."], ["user_id", 12], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (7.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Quam perferendis."], ["body", "Debitis veniam provident repellat sunt omnis laboriosam ipsum et."], ["user_id", 7], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (7.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Omnis perspiciatis ipsum totam delectus."], ["body", "Molestiae amet possimus beatae vel aut dicta minima cupiditate."], ["user_id", 8], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Quasi cumque deleniti quis veritatis quis."], ["body", "Aut aspernatur ipsa dolorem voluptatibus."], ["user_id", 9], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (9.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Molestiae ipsam ipsum voluptatem recusandae."], ["body", "Qui labore in architecto eos corporis ipsa quia repellendus voluptatem."], ["user_id", 10], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (7.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Enim suscipit."], ["body", "Natus neque quis ut laudantium."], ["user_id", 11], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Quia sed."], ["body", "Qui ipsum quae sit assumenda."], ["user_id", 12], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE (role = 1) LIMIT ?[0m  [["LIMIT", 6]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Id cupiditate corporis."], ["body", "Ut laudantium id iure hic."], ["user_id", 7], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (7.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Tenetur voluptatum."], ["body", "Nam blanditiis excepturi eum architecto."], ["user_id", 8], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (6.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Id corrupti reiciendis repellendus hic."], ["body", "Sit consequatur rerum dolorum quas voluptatem."], ["user_id", 9], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (8.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Asperiores explicabo porro quae consequuntur."], ["body", "Necessitatibus quos omnis laboriosam maiores est rerum aut voluptatem."], ["user_id", 10], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Qui aliquid rerum et."], ["body", "Repudiandae ipsa unde rem eum vel cupiditate."], ["user_id", 11], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Eligendi nobis dolore."], ["body", "Voluptatem sed quae et atque."], ["user_id", 12], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (14.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Voluptates."], ["body", "Omnis fugiat aut sunt atque quis numquam nesciunt expedita."], ["user_id", 7], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (10.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Est cupiditate."], ["body", "Alias sit molestiae distinctio dolores."], ["user_id", 8], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Voluptas quod reprehenderit."], ["body", "Dolores laboriosam voluptate magnam nulla perspiciatis libero aliquam quia."], ["user_id", 9], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Ea iste ut numquam architecto odit."], ["body", "Incidunt aliquam aliquid nemo voluptate saepe aut excepturi est."], ["user_id", 10], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Non ratione quia id nam."], ["body", "Consequatur porro cupiditate dolore et ratione omnis."], ["user_id", 11], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Excepturi inventore fugit dolore rerum."], ["body", "Et aliquid non magni ut."], ["user_id", 12], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Vel a porro non quidem."], ["body", "Rerum ut animi laborum et omnis harum accusamus impedit."], ["user_id", 7], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Sit sunt quasi facilis ullam."], ["body", "Aspernatur iusto totam incidunt nemo eos dolores occaecati enim eaque."], ["user_id", 8], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (8.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Recusandae eius dignissimos reiciendis exercitationem."], ["body", "Rerum omnis saepe et nam."], ["user_id", 9], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Non aut reprehenderit autem veniam qui."], ["body", "Repudiandae eum aut excepturi non tempore quisquam voluptas quibusdam in."], ["user_id", 10], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Ea voluptatibus adipisci."], ["body", "Accusamus ut numquam quaerat aut."], ["user_id", 11], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Illo placeat aperiam."], ["body", "Eum quisquam vitae voluptatem qui."], ["user_id", 12], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Sed vero et necessitatibus ut."], ["body", "Exercitationem deleniti fugiat quas qui cum amet omnis perspiciatis."], ["user_id", 7], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (8.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Iure qui dolor est autem necessitatibus."], ["body", "Quae aut architecto fugit ipsum."], ["user_id", 8], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Quis eaque incidunt animi iure aut."], ["body", "Maiores consectetur sequi aut alias odit rerum quidem nostrum itaque."], ["user_id", 9], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (8.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Adipisci consequuntur."], ["body", "Doloremque molestiae cumque culpa non ratione in dolorem quod."], ["user_id", 10], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Sit doloremque et."], ["body", "Omnis ratione libero aut veniam non dicta dolores et."], ["user_id", 11], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (9.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "posts" ("title", "body", "user_id", "created_at", "updated_at", "private") VALUES (?, ?, ?, ?, ?, ?)[0m  [["title", "Ab."], ["body", "Autem vero aut ut quis ad illo voluptatem."], ["user_id", 12], ["created_at", 2017-02-11 23:39:14 UTC], ["updated_at", 2017-02-11 23:39:14 UTC], ["private", true]]
+  [1m[35m (7.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts"[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "collaborators"[0m
+Started GET "/" for 73.71.210.44 at 2017-02-11 15:39:54 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendered welcome/index.html.erb within layouts/application (37.8ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (2.5ms)
+  Rendered layouts/_footer.html.erb (0.9ms)
+Completed 200 OK in 5431ms (Views: 5411.4ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/users/sign_in" for 73.71.210.44 at 2017-02-11 15:40:07 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (1.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (722.9ms)
+  Rendered layouts/_shim.html.erb (0.6ms)
+  Rendered layouts/_header.html.erb (1.6ms)
+  Rendered layouts/_footer.html.erb (0.6ms)
+Completed 200 OK in 821ms (Views: 816.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/sign_in" for 73.71.210.44 at 2017-02-11 15:40:40 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"WL1TsAXHi7XxFQrKdsSX72rmx+O9d1NTHctfa43TUPo/V/o20KIiQnC2RbsgQP41IkCzmtqPP2LUAxhKTK4yGg==", "user"=>{"email"=>"premium-1@railstutorial.org", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["email", "premium-1@railstutorial.org"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "users" SET "current_sign_in_at" = ?, "last_sign_in_at" = ?, "current_sign_in_ip" = ?, "last_sign_in_ip" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["current_sign_in_at", 2017-02-11 23:40:40 UTC], ["last_sign_in_at", 2017-02-11 23:40:40 UTC], ["current_sign_in_ip", "73.71.210.44"], ["last_sign_in_ip", "73.71.210.44"], ["sign_in_count", 1], ["updated_at", 2017-02-11 23:40:40 UTC], ["id", 7]]
+  [1m[35m (10.1ms)[0m  [1m[36mcommit transaction[0m
+Redirected to https://blocpedia-databasedude.c9users.io/
+Completed 302 Found in 164ms (ActiveRecord: 11.1ms)
+
+
+Started GET "/" for 73.71.210.44 at 2017-02-11 15:40:40 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendered welcome/index.html.erb within layouts/application (2.3ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (3.1ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 53ms (Views: 51.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/posts" for 73.71.210.44 at 2017-02-11 15:40:44 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 50], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 51], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 52], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 53], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 54], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 56], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 57], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 58], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 59], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 60], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 62], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 63], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 64], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 65], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 66], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 68], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 69], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 70], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 71], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 72], ["id", 7], ["LIMIT", 1]]
+  Rendering posts/index.html.erb within layouts/application
+  Rendered posts/index.html.erb within layouts/application (6.6ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 160ms (Views: 56.1ms | ActiveRecord: 5.6ms)
+
+
+Started GET "/downgrade" for 73.71.210.44 at 2017-02-11 15:40:47 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by ChargesController#downgrade as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering charges/downgrade.html.erb within layouts/application
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ? AND (private = 't')[0m  [["user_id", 7]]
+  Rendered charges/downgrade.html.erb within layouts/application (8.2ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 61ms (Views: 54.7ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/posts/49" for 73.71.210.44 at 2017-02-11 15:40:51 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"49"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendered posts/show.html.erb within layouts/application (3.9ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (2.2ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 107ms (Views: 74.1ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:40:54 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (152.8ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 218ms (Views: 207.2ms | ActiveRecord: 3.6ms)
+
+
+Started POST "/posts/49/collaborators?user_id=1" for 73.71.210.44 at 2017-02-11 15:40:56 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#create as HTML
+  Parameters: {"authenticity_token"=>"RnQgLcSVyohf0nZF/FZ7WYu7WC6UuFKReEfSpk7qadLEFoPmkmyMUdc3ZEauCw299oH2t3qLgODAQSTGd4rgjg==", "user_id"=>"1", "post_id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "collaborators" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 1], ["post_id", 49], ["created_at", 2017-02-11 23:40:56 UTC], ["updated_at", 2017-02-11 23:40:56 UTC]]
+  [1m[35m (11.4ms)[0m  [1m[36mcommit transaction[0m
+Redirected to https://blocpedia-databasedude.c9users.io/posts/49/collaborators/49
+Completed 302 Found in 27ms (ActiveRecord: 12.6ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:40:56 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (23.6ms)
+  Rendered layouts/_shim.html.erb (0.6ms)
+  Rendered layouts/_header.html.erb (2.1ms)
+  Rendered layouts/_footer.html.erb (0.6ms)
+Completed 200 OK in 94ms (Views: 85.1ms | ActiveRecord: 3.1ms)
+
+
+Started POST "/posts/49/collaborators?user_id=3" for 73.71.210.44 at 2017-02-11 15:40:58 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#create as HTML
+  Parameters: {"authenticity_token"=>"jstk1+Y/6DG1hBVZ84dfPaRPST/7+LCTgogbbn42rccMqcccsMau6D1hB1qh2inZ2XXnphXLYuI6ju0OR1Ykmw==", "user_id"=>"3", "post_id"=>"49"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "collaborators" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 3], ["post_id", 49], ["created_at", 2017-02-11 23:40:58 UTC], ["updated_at", 2017-02-11 23:40:58 UTC]]
+  [1m[35m (8.6ms)[0m  [1m[36mcommit transaction[0m
+Redirected to https://blocpedia-databasedude.c9users.io/posts/49/collaborators/49
+Completed 302 Found in 17ms (ActiveRecord: 9.5ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:40:58 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (22.0ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 79ms (Views: 70.2ms | ActiveRecord: 3.1ms)
+
+
+Started POST "/posts/49/collaborators?user_id=5" for 73.71.210.44 at 2017-02-11 15:41:03 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#create as HTML
+  Parameters: {"authenticity_token"=>"GTGRQ2lP4GoIs2eiL1NDgd02qzlWTYfelJs68QlNtpObUzKIP7ams4BWdaF9DjVloAwFoLh+Va8sncyRMC0/zw==", "user_id"=>"5", "post_id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "collaborators" ("user_id", "post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["user_id", 5], ["post_id", 49], ["created_at", 2017-02-11 23:41:03 UTC], ["updated_at", 2017-02-11 23:41:03 UTC]]
+  [1m[35m (67.1ms)[0m  [1m[36mcommit transaction[0m
+Redirected to https://blocpedia-databasedude.c9users.io/posts/49/collaborators/49
+Completed 302 Found in 76ms (ActiveRecord: 68.0ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:41:03 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.3ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (21.7ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 77ms (Views: 68.7ms | ActiveRecord: 3.3ms)
+
+
+Started GET "/posts" for 73.71.210.44 at 2017-02-11 15:41:08 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 50], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 51], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 52], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 53], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 54], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 56], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 57], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 58], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 59], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 60], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 62], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 63], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 64], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 65], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 66], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 68], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 69], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 70], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 71], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 72], ["id", 7], ["LIMIT", 1]]
+  Rendering posts/index.html.erb within layouts/application
+  Rendered posts/index.html.erb within layouts/application (5.1ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 256ms (Views: 50.5ms | ActiveRecord: 4.7ms)
+
+
+Started GET "/downgrade" for 73.71.210.44 at 2017-02-11 15:41:13 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by ChargesController#downgrade as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering charges/downgrade.html.erb within layouts/application
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ? AND (private = 't')[0m  [["user_id", 7]]
+  Rendered charges/downgrade.html.erb within layouts/application (2.5ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.3ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 52ms (Views: 47.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/posts/49" for 73.71.210.44 at 2017-02-11 15:41:15 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendered posts/show.html.erb within layouts/application (3.1ms)
+  Rendered layouts/_shim.html.erb (0.7ms)
+  Rendered layouts/_header.html.erb (2.5ms)
+  Rendered layouts/_footer.html.erb (0.6ms)
+Completed 200 OK in 67ms (Views: 61.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:41:17 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (83.3ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.3ms)
+Completed 200 OK in 165ms (Views: 154.8ms | ActiveRecord: 4.4ms)
+
+
+Started DELETE "/posts/49/collaborators/2" for 73.71.210.44 at 2017-02-11 15:41:20 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"qcIVruA2vFI5GWFebmDeGmC+fa4MYb9UmXoHBHFtWDcroLZlts/6i7H8c108Paj+HYTTN+JSbSUhfPFkSA3Raw==", "post_id"=>"49", "id"=>"2"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+Redirected to https://blocpedia-databasedude.c9users.io/posts
+Filter chain halted as :authorize_user_delete rendered or redirected
+Completed 302 Found in 13ms (ActiveRecord: 1.0ms)
+
+
+Started GET "/posts" for 73.71.210.44 at 2017-02-11 15:41:20 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 50], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 51], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 52], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 53], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 54], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 56], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 57], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 58], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 59], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 60], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 62], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 63], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 64], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 65], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 66], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 68], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 69], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 70], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 71], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 72], ["id", 7], ["LIMIT", 1]]
+  Rendering posts/index.html.erb within layouts/application
+  Rendered posts/index.html.erb within layouts/application (6.5ms)
+  Rendered layouts/_shim.html.erb (0.6ms)
+  Rendered layouts/_header.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 106ms (Views: 62.7ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/downgrade" for 73.71.210.44 at 2017-02-11 15:41:25 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by ChargesController#downgrade as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering charges/downgrade.html.erb within layouts/application
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ? AND (private = 't')[0m  [["user_id", 7]]
+  Rendered charges/downgrade.html.erb within layouts/application (3.2ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 57ms (Views: 52.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/posts/49" for 73.71.210.44 at 2017-02-11 15:41:26 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendered posts/show.html.erb within layouts/application (2.9ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 57ms (Views: 51.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:41:28 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (170.1ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (2.0ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 230ms (Views: 222.4ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/downgrade" for 73.71.210.44 at 2017-02-11 15:48:53 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ChargesController#downgrade as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering charges/downgrade.html.erb within layouts/application
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ? AND (private = 't')[0m  [["user_id", 7]]
+  Rendered charges/downgrade.html.erb within layouts/application (21.7ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (3.5ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 416ms (Views: 344.9ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/posts/49" for 73.71.210.44 at 2017-02-11 15:49:08 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"49"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendered posts/show.html.erb within layouts/application (476.7ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 543ms (Views: 532.5ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:49:11 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (147.5ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (2.6ms)
+  Rendered layouts/_footer.html.erb (0.8ms)
+Completed 200 OK in 218ms (Views: 208.3ms | ActiveRecord: 4.5ms)
+
+
+Started DELETE "/posts/49/collaborators/2" for 73.71.210.44 at 2017-02-11 15:49:15 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"p9VsZ+dRj3qPVyn3a1anMVvFt6i/1FqDC7Md259y2DUlt8+ssajJoweyO/Q5C9HVJv8ZMVHniPKzteu7phJRaQ==", "post_id"=>"49", "id"=>"2"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+Redirected to https://blocpedia-databasedude.c9users.io/posts
+Filter chain halted as :authorize_user_delete rendered or redirected
+Completed 302 Found in 9ms (ActiveRecord: 0.9ms)
+
+
+Started GET "/posts" for 73.71.210.44 at 2017-02-11 15:49:15 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.8ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 50], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 51], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 52], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 53], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 54], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 56], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 57], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 58], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 59], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 60], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 62], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 63], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 64], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 65], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 66], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 68], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 69], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 70], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 71], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 72], ["id", 7], ["LIMIT", 1]]
+  Rendering posts/index.html.erb within layouts/application
+  Rendered posts/index.html.erb within layouts/application (8.7ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (2.5ms)
+  Rendered layouts/_footer.html.erb (0.8ms)
+Completed 200 OK in 144ms (Views: 84.2ms | ActiveRecord: 4.9ms)
+
+
+Started GET "/downgrade" for 73.71.210.44 at 2017-02-11 15:50:16 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by ChargesController#downgrade as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering charges/downgrade.html.erb within layouts/application
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ? AND (private = 't')[0m  [["user_id", 7]]
+  Rendered charges/downgrade.html.erb within layouts/application (4.2ms)
+  Rendered layouts/_shim.html.erb (0.9ms)
+  Rendered layouts/_header.html.erb (2.7ms)
+  Rendered layouts/_footer.html.erb (1.1ms)
+Completed 200 OK in 77ms (Views: 71.1ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/downgrade" for 73.71.210.44 at 2017-02-11 15:54:10 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ChargesController#downgrade as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering charges/downgrade.html.erb within layouts/application
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ? AND (private = 't')[0m  [["user_id", 7]]
+  Rendered charges/downgrade.html.erb within layouts/application (31.4ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (3.2ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 447ms (Views: 352.5ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/posts/49" for 73.71.210.44 at 2017-02-11 15:54:15 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendered posts/show.html.erb within layouts/application (539.1ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (1.9ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 607ms (Views: 595.4ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:54:17 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.3ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (76.6ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (11.9ms)
+  Rendered layouts/_footer.html.erb (0.7ms)
+Completed 200 OK in 162ms (Views: 150.0ms | ActiveRecord: 5.5ms)
+
+
+Started DELETE "/posts/49/collaborators/2" for 73.71.210.44 at 2017-02-11 15:54:21 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"YM5Bs0eeegjNhsdHT4RDKBvHsKQpvfKAZ5SY7NHtnV/irOJ4EWc80UVj1UQd2TXMZv0ePceOIPHfkm6M6I0UAw==", "post_id"=>"49", "id"=>"2"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+Redirected to https://blocpedia-databasedude.c9users.io/posts
+Filter chain halted as :authorize_user_delete rendered or redirected
+Completed 302 Found in 99403ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/posts" for 73.71.210.44 at 2017-02-11 15:56:00 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (1.0ms)[0m  [1m[34mSELECT "posts".* FROM "posts"[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 50], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 51], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 52], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 53], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 54], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 56], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 57], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 58], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 59], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 60], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 62], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 63], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 64], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 65], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 66], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 68], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 69], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 70], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 71], ["id", 7], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 72], ["id", 7], ["LIMIT", 1]]
+  Rendering posts/index.html.erb within layouts/application
+  Rendered posts/index.html.erb within layouts/application (9.1ms)
+  Rendered layouts/_shim.html.erb (0.4ms)
+  Rendered layouts/_header.html.erb (3.2ms)
+  Rendered layouts/_footer.html.erb (0.6ms)
+Completed 200 OK in 231ms (Views: 89.7ms | ActiveRecord: 8.7ms)
+
+
+Started GET "/downgrade" for 73.71.210.44 at 2017-02-11 15:56:05 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by ChargesController#downgrade as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering charges/downgrade.html.erb within layouts/application
+  [1m[36mPost Load (0.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."user_id" = ? AND (private = 't')[0m  [["user_id", 7]]
+  Rendered charges/downgrade.html.erb within layouts/application (8.9ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.6ms)
+Completed 200 OK in 84ms (Views: 72.6ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/posts/49" for 73.71.210.44 at 2017-02-11 15:56:08 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by PostsController#show as HTML
+  Parameters: {"id"=>"49"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendered posts/show.html.erb within layouts/application (3.3ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 77ms (Views: 69.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:56:09 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (64.3ms)
+  Rendered layouts/_shim.html.erb (0.6ms)
+  Rendered layouts/_header.html.erb (2.0ms)
+  Rendered layouts/_footer.html.erb (0.5ms)
+Completed 200 OK in 126ms (Views: 116.1ms | ActiveRecord: 3.9ms)
+
+
+Started DELETE "/posts/49/collaborators/2" for 73.71.210.44 at 2017-02-11 15:56:14 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"2FEUbxBmaE+5EX6965i4xUVIWtaJmcqzcByCecUtOwFaM7ekRp8uljH0bL65xc4hOHL0T2eqGMLIGnQZ/E2yXQ==", "post_id"=>"49", "id"=>"2"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM "collaborators" WHERE "collaborators"."id" = ?[0m  [["id", 2]]
+  [1m[35m (7.8ms)[0m  [1m[36mcommit transaction[0m
+Redirected to https://blocpedia-databasedude.c9users.io/posts/49/collaborators/49
+Completed 302 Found in 73320ms (ActiveRecord: 9.8ms)
+
+
+Started GET "/posts/49/collaborators/49" for 73.71.210.44 at 2017-02-11 15:57:28 -0800
+Cannot render console from 73.71.210.44! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by CollaboratorsController#show as HTML
+  Parameters: {"post_id"=>"49", "id"=>"49"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? ORDER BY "users"."id" ASC LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT ?[0m  [["id", 49], ["LIMIT", 1]]
+  Rendering collaborators/show.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE ("users"."id" != ?)[0m  [["id", 7]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 1], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 5], ["LIMIT", 1]]
+  [1m[36mCollaborator Load (0.2ms)[0m  [1m[34mSELECT  "collaborators".* FROM "collaborators" WHERE "collaborators"."post_id" = ? AND "collaborators"."user_id" = ? ORDER BY "collaborators"."id" ASC LIMIT ?[0m  [["post_id", 49], ["user_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 10], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" INNER JOIN "collaborators" ON "users"."id" = "collaborators"."user_id" WHERE "collaborators"."post_id" = ? AND "users"."id" = ? LIMIT ?[0m  [["post_id", 49], ["id", 12], ["LIMIT", 1]]
+  Rendered collaborators/show.html.erb within layouts/application (27.8ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  Rendered layouts/_header.html.erb (1.9ms)
+  Rendered layouts/_footer.html.erb (0.4ms)
+Completed 200 OK in 94ms (Views: 83.7ms | ActiveRecord: 4.4ms)
+
+
