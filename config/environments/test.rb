@@ -43,6 +43,6 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.raise_delivery_errors = true
   config.action_mailer.raise_delivery_errors = true   # comment out the one already there
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: 'blocpedia-databasedude.c9users.io' }
 
 end

@@ -1,11 +1,11 @@
 
-Title:  blocpedia /Wikiiki
+**Title**:  blocpedia /Wikiiki
 
-Description:  a Wikiiki replica to teach the fundamentals of web development and Rails. 
+**Description**:  a Wikiiki replica to teach the fundamentals of web development and Rails. 
 
-Technology:  HTML, CSS, Ruby on Rails, Devise, Stripe, Pundit
+**Technology**:  HTML, CSS, Ruby on Rails, Devise, Sendgrid Stripe, Pundit
 
-Install on Cloud9:
+**Install on Cloud9**:
   Go to your Cloud9 dashboard  
   Create new workspace
     Workspace name:  blocpedia 
