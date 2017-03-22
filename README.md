@@ -25,7 +25,7 @@ Even know Stripe is a real payment application, we will use fake Visa account fo
 * Only Premium and Admin can add collaborators to a post.
 
 **Technology**:  HTML, CSS, Ruby on Rails, Bootstrap, Sendgrid mail server, ActionMailer client, Figaro to setup environment variables; 
-Stripe for handling credit cards, and Pundit for authorization
+Stripe for handling credit cards, Pundit for authorization, SQLite, PostgreSQL
 
 **Install Instruction**:
 

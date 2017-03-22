@@ -36,6 +36,19 @@ end
                 role: 'premium' )
 end
 
+# Create Admin users
+2.times do |n|
+   name  = Faker::Name.name
+   email = "admin-#{n+1}@railstutorial.org"
+   password = "password"
+   User.create!(name:  name,
+                email: email,
+                password:              password,
+                password_confirmation: password,
+                confirmed_at: Time.zone.now,
+                role: 'admin' )
+end
+
 # Standard users Public Microposts
 users = User.where( "role = 0").take(6)
 4.times do
@@ -55,18 +68,18 @@ users = User.where( "role = 1").take(6)
 end
 
 # Standard users Collaborators.
-#users = User.where( "role = 0").take(2)
-#users.each do |user|
-#  post=Post.where.not( user: user, private: 0).take(2)
-#  post.each { |post| Collaborator.create!( user: user, post: post ) }
-#end
+users = User.where( "role = 0").take(2)
+users.each do |user|
+  post=Post.where.not( user: user, private: 0).take(2)
+  post.each { |post| Collaborator.create!( user: user, post: post ) }
+end
 
 # Premium users Collaborators.
-#users = User.where( "role = 1").take(2)
-#users.each do |user|
-#  post=Post.where.not( user: user, private: 0).take(2)
-#  post.each { |post| Collaborator.create!( user: user, post: post ) }
-#end
+users = User.where( "role = 1").take(2)
+users.each do |user|
+  post=Post.where.not( user: user, private: 0).take(2)
+  post.each { |post| Collaborator.create!( user: user, post: post ) }
+end
 
 puts "Seed finished"
 puts "#{User.count} users created"

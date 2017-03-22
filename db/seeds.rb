@@ -36,6 +36,19 @@ end
                 role: 'premium' )
 end
 
+# Create Admin users
+2.times do |n|
+   name  = Faker::Name.name
+   email = "admin-#{n+1}@railstutorial.org"
+   password = "password"
+   User.create!(name:  name,
+                email: email,
+                password:              password,
+                password_confirmation: password,
+                confirmed_at: Time.zone.now,
+                role: 'admin' )
+end
+
 puts "Seed finished"
 puts "#{User.count} users created"
 puts "#{Post.count} posts created"
