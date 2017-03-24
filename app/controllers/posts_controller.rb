@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 before_action :authenticate_user!
-before_action :authorize_user_edit, only: [:edit, :show, :destroy ]
-before_action :authorize_user_delete, only: [:destroy]
+#before_action :authorize_user_edit, only: [:edit, :show, :destroy ]
+#before_action :authorize_user_delete, only: [:destroy]
 
   # Show only public, own, and collaborated wiki
   def index
@@ -19,9 +19,6 @@ before_action :authorize_user_delete, only: [:destroy]
   def edit
     @post = Post.find(params[:id])
     authorize @post
-    if @post.update(post_params)
-      redirect_to @post
-    end
   end
 
   def update
@@ -60,7 +57,8 @@ before_action :authorize_user_delete, only: [:destroy]
 
   def destroy
     @post = Post.find(params[:id])
-
+    authorize @post
+    
     if @post.destroy
       flash[:notice] = "\"#{@post.title}\" was deleted successfully."
       redirect_to posts_path
@@ -70,19 +68,4 @@ before_action :authorize_user_delete, only: [:destroy]
     end
   end
 
-  def authorize_user_edit
-    post = Post.find(params[:id])
-    unless helpers.user_authorized_for_edit_post?(post)
-      flash[:alert] = 'You do not have permission.'
-      redirect_to posts_path
-    end
-  end
-
-  def authorize_user_delete
-    post = Post.find(params[:id])
-    unless helpers.user_authorized_for_delete_post?(post)
-      flash[:alert] = 'You do not have permission.'
-      redirect_to posts_path
-    end
-  end
 end

@@ -30,7 +30,15 @@ class PostPolicy < ApplicationPolicy
 
   end #Scope
 
-  # Show checkbox for private when user is admin or
-  # user is premium and owner of the post
+  # Update if a public post; or owned by this user; or user is 
+  # part of the collaboration for this post
+  # 
+  
+  def update?
+    !record.private? || record.user_id == user.id || record.user_collaborators.include?(user)|| user.admin?
+  end
 
+  def destroy?
+    record.user_id == user.id || user.admin?
+  end
 end #Post policy

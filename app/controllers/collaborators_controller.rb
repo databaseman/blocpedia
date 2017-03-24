@@ -36,8 +36,7 @@ before_action :authorize_user_delete, only: [:destroy]
   def destroy
     @collaborator = Collaborator.find(params[:id])
     @user=User.find( @collaborator.user_id )
-    debugger
-    
+
     if @collaborator.destroy
       flash[:notice] = "\"#{@user.email}\" was removed successfully."
       redirect_to action: "show", id: @collaborator.post_id

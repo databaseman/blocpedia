@@ -2,10 +2,11 @@
 <h2>
   submitted <%= time_ago_in_words(@post.created_at) %> ago by <%= @post.user.name %> (<%= @post.user.email %>)<br>
 </h2><br>
-<% if user_authorized_for_edit_post?(@post) -%>
+
+<% if policy(@post).update? -%>
     <%= link_to "Edit", edit_post_path(@post), class: 'btn btn-success' %>
 <% end %>
-<% if user_authorized_for_delete_post?(@post) -%>
+<% if policy(@post).destroy? -%>
     <%= link_to "Delete", @post, method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this post?'} %>
 <% end -%>
 <% if user_authorized_for_collaboration_post?(@post) -%>

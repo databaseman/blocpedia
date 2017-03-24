@@ -10,14 +10,6 @@ module ApplicationHelper
     end
   end
 
-  def user_authorized_for_delete_post?(post)
-    current_user == post.user || current_user.admin?
-  end
-
-  def user_authorized_for_edit_post?(post)
-    current_user == post.user || current_user.admin? || !post.private? || post.user_collaborators.include?(current_user)
-  end
-
   def user_authorized_for_collaboration_post?(post)
     (current_user == post.user || current_user.admin?) && post.private?
   end
