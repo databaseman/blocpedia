@@ -22,7 +22,6 @@ group :development do
 end
 
 gem 'devise'
-gem 'bcrypt', platforms: :ruby
 gem 'figaro', '1.0'
 gem 'net-ssh'
 gem 'will_paginate',           '3.1.0'

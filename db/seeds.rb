@@ -49,6 +49,24 @@ end
                 role: 'admin' )
 end
 
+# Standard users Public Microposts
+users = User.where( "role = 0").take(6)
+4.times do
+  users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
+end
+
+# Premium users Public Microposts
+users = User.where( "role = 1").take(6)
+4.times do
+  users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
+end
+
+# Premium users Private Microposts
+users = User.where( "role = 1").take(6)
+4.times do
+  users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5), private: true  ) }
+end
+
 puts "Seed finished"
 puts "#{User.count} users created"
 puts "#{Post.count} posts created"

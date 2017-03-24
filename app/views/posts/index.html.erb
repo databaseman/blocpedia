@@ -3,14 +3,13 @@
   <%= link_to "New Post", new_post_path, class: 'btn btn-success' %><br>
 </div>
 
-<div>
- <% @own_and_public_posts.each do |post| %>
- <div class="media">
-   <div class="media-body">
-     <h4 class="media-heading">
+<%= will_paginate %> 
+<ul>
+ <% @posts.each do |post| %>
+     <li>
        <%= link_to post.title, post %>
-     </h4>
-   </div>
- </div>
+     </li>  
  <% end %>
-</div>
+</ul>
+ <%= will_paginate %> 
+

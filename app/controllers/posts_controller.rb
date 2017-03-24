@@ -3,9 +3,9 @@ before_action :authenticate_user!
 before_action :authorize_user_edit, only: [:edit, :show, :destroy ]
 before_action :authorize_user_delete, only: [:destroy]
 
-# Show only public and own wiki
+  # Show only public, own, and collaborated wiki
   def index
-    @own_and_public_posts = policy_scope(Post)
+    @posts = policy_scope(Post).paginate(page: params[:page], per_page: 20)
   end
 
   def show
@@ -18,6 +18,10 @@ before_action :authorize_user_delete, only: [:destroy]
 
   def edit
     @post = Post.find(params[:id])
+    authorize @post
+    if @post.update(post_params)
+      redirect_to @post
+    end
   end
 
   def update

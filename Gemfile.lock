@@ -372,7 +372,6 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  bcrypt
   bootstrap-sass (= 3.3.6)
   bootstrap-will_paginate (= 0.0.10)
   byebug
