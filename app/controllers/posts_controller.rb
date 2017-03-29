@@ -36,10 +36,7 @@ before_action :authenticate_user!
     @post = Post.find(params[:id])
     @post.title = params[:post][:title]
     @post.body = params[:post][:body]
-
-    if helpers.user_authorized_for_private_checkbox?(@post)
-      @post.private = params[:post][:private]
-    end
+    @post.private = params[:post][:private] || @post.private
 
     if @post.save # Calling database save/insert command
       flash[:notice] = 'Post was saved.'

@@ -49,11 +49,11 @@ end
                 role: 'admin' )
 end
 
-# Standard users Public Microposts
-users = User.where( "role = 0").take(6)
-4.times do
-  users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
-end
+# Standard users can not create posts 
+# users = User.where( "role = 0").take(6)
+# 4.times do
+#   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
+# end
 
 # Premium users Public Microposts
 users = User.where( "role = 1").take(6)

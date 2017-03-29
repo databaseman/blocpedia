@@ -30,6 +30,10 @@ class PostPolicy < ApplicationPolicy
 
   end #Scope
 
+  def edit?
+    update?
+  end
+  
   # Update if a public post; or owned by this user; or user is 
   # part of the collaboration for this post; or an admin
   def update?
@@ -51,9 +55,9 @@ class PostPolicy < ApplicationPolicy
     record.private? && (record.user_id == user.id || user.admin?) 
   end
   
-  # Can make toggle post privacy if owner is premium and current user is the owner or admin
+  # Can make toggle post privacy if current user is the owner or admin
   def checkbox?
-     record.user_id.premium? && ( (record.user_id == user.id) || user.admin? )
+     ( record.user_id == user.id ) || user.admin? 
   end
   
 end #Post policy
