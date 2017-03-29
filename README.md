@@ -22,10 +22,10 @@ Even know Stripe is a real payment application, we will use fake Visa account fo
 * Standard users should be able to edit any public wiki.
 * Only Premium and Admin can create new post.
 * Only Premium and Admin can edit private post.
-* Only Premium and Admin can add collaborators to a post.
+* Only Premium and Admin can add collaborators to a private post.
 
 **Technology**:  HTML, CSS, Ruby on Rails, Bootstrap, Sendgrid mail server, ActionMailer client, Figaro to setup environment variables; 
-Stripe for handling credit cards, Pundit for authorization, SQLite, PostgreSQL, Markdown for text entries
+Stripe for handling credit cards, Pundit for authorization, SQLite, PostgreSQL, Redcarpet Markdown for text entries
 
 **Install Instruction**:
 

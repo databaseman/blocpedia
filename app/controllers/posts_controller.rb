@@ -10,6 +10,7 @@ before_action :authenticate_user!
 
   def show
     @post = Post.find(params[:id])
+    authorize @post
   end
 
   def new
@@ -21,6 +22,16 @@ before_action :authenticate_user!
     authorize @post
   end
 
+  def collaborate
+    @post = Post.find(params[:id])
+    authorize @post
+  end
+
+  def checkbox
+    @post = Post.find(params[:id])
+    authorize @post
+  end
+  
   def update
     @post = Post.find(params[:id])
     @post.title = params[:post][:title]

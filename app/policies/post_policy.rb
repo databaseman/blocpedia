@@ -31,14 +31,29 @@ class PostPolicy < ApplicationPolicy
   end #Scope
 
   # Update if a public post; or owned by this user; or user is 
-  # part of the collaboration for this post
-  # 
-  
+  # part of the collaboration for this post; or an admin
   def update?
     !record.private? || record.user_id == user.id || record.user_collaborators.include?(user)|| user.admin?
   end
 
+  # Only if owner or admin
   def destroy?
     record.user_id == user.id || user.admin?
   end
+  
+  # Same as update
+  def show?
+    update?
+  end
+
+  # Allow collaboration on private post only, and user must be owner or admin
+  def collaborate?
+    record.private? && (record.user_id == user.id || user.admin?) 
+  end
+  
+  # Can make toggle post privacy if owner is premium and current user is the owner or admin
+  def checkbox?
+     record.user_id.premium? && ( (record.user_id == user.id) || user.admin? )
+  end
+  
 end #Post policy

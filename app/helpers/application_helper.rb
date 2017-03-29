@@ -10,19 +10,6 @@ module ApplicationHelper
     end
   end
 
-  def user_authorized_for_collaboration_post?(post)
-    (current_user == post.user || current_user.admin?) && post.private?
-  end
-
-  def user_authorized_for_private_checkbox?(post)
-     current_user.admin? || (current_user.premium? && current_user == post.user)
-  end
-
-  # Replaced by Pundit
-  #def user_authorized_for_private_post?
-  #  current_user.role == "premium" || current_user.admin?
-  #end
-
   def markdown(text)
     options = {
       filter_html:     true,
@@ -43,7 +30,5 @@ module ApplicationHelper
 
     markdown.render(text).html_safe
   end
-
-
 
 end

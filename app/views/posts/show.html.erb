@@ -9,7 +9,7 @@
 <% if policy(@post).destroy? -%>
     <%= link_to "Delete", @post, method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete this post?'} %>
 <% end -%>
-<% if user_authorized_for_collaboration_post?(@post) -%>
+<% if policy(@post).collaborate? -%>
     <%= link_to "Collaboration", post_collaborator_path(@post), class: 'btn btn-primary' %>
 <% end -%>
 <p></p>
