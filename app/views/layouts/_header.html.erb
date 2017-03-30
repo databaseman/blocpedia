@@ -7,6 +7,9 @@
           <li><%= link_to "Home", root_path %></li>
           <li><%= link_to "Help", help_path %></li>
           <li><%= link_to "Posts", posts_path %></li>
+          <% if current_user.admin? %>
+            <li><%= link_to "Users", users_index_path %></li>  
+          <% end %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               Account <b class="caret"></b>
@@ -18,8 +21,8 @@
               <% else %>
                 <li><%= link_to "Upgrade", new_charge_path %></li>
               <% end %>
-<!--              <li><%= link_to "Cancel Account", '#' %></li> -->
-              <li class="divider"></li>
+              <li><%= link_to "Cancel Account", admin_destroy_user_path(current_user), method: :delete, class: 'btn btn-danger', data: {confirm: 'Are you sure you want to remove your account?'} %></li>
+             <li class="divider"></li>
               <li>
                 <li><%= link_to "Log out", destroy_user_session_path, method: "delete" %></li>
               </li>

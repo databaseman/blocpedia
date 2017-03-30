@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
   has_many :collaborators
   has_many :post_collaborators, through: :collaborators, source: :post
   before_save { self.role ||= :standard }
-
+  default_scope { order(email: :asc) }
+  
   enum role: [:standard, :premium, :admin]
 
 end
