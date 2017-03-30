@@ -3,13 +3,11 @@
   <%= link_to "New Post", new_post_path, class: 'btn btn-success' %><br>
 </div>
 
-<%= will_paginate %> 
 <ul>
  <% @posts.each do |post| %>
      <li>
        <%= link_to post.title, post %>
-     </li>  
+     </li>
  <% end %>
 </ul>
- <%= will_paginate %> 
-
+ <%= will_paginate %>

@@ -1,14 +1,13 @@
 class CollaboratorsController < ApplicationController
 before_action :authenticate_user!
-before_action :authorize_user_edit, only: [:edit, :show, :destroy ]
-before_action :authorize_user_delete, only: [:destroy]
 
   def index
   end
 
   def show
-    @users=User.where.not( id: current_user.id)
     @post=Post.find(params[:id])
+    authorize @post
+    @users=User.where.not( id: current_user.id).paginate(page: params[:page], per_page: 10)
   end
 
   def new
@@ -34,6 +33,8 @@ before_action :authorize_user_delete, only: [:destroy]
   end
 
   def destroy
+    @post=Post.find(params[:post_id])
+    authorize @post
     @collaborator = Collaborator.find(params[:id])
     @user=User.find( @collaborator.user_id )
 
@@ -46,19 +47,5 @@ before_action :authorize_user_delete, only: [:destroy]
     end
   end
 
-  def authorize_user_edit
-    post = Post.find(params[:id])
-    unless helpers.user_authorized_for_edit_post?(post)
-      flash[:alert] = 'You do not have permission.'
-      redirect_to posts_path
-    end
-  end
 
-  def authorize_user_delete
-    post = Post.find(params[:post_id])
-    unless helpers.user_authorized_for_delete_post?(post)
-      flash[:alert] = 'You do not have permission.'
-      redirect_to posts_path
-    end
-  end
 end

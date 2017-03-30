@@ -1,11 +1,9 @@
 class PostsController < ApplicationController
 before_action :authenticate_user!
-#before_action :authorize_user_edit, only: [:edit, :show, :destroy ]
-#before_action :authorize_user_delete, only: [:destroy]
 
   # Show only public, own, and collaborated wiki
   def index
-    @posts = policy_scope(Post).paginate(page: params[:page], per_page: 20)
+    @posts = policy_scope(Post).paginate(page: params[:page], per_page: 15)
   end
 
   def show
@@ -31,7 +29,7 @@ before_action :authenticate_user!
     @post = Post.find(params[:id])
     authorize @post
   end
-  
+
   def update
     @post = Post.find(params[:id])
     @post.title = params[:post][:title]
@@ -66,7 +64,7 @@ before_action :authenticate_user!
   def destroy
     @post = Post.find(params[:id])
     authorize @post
-    
+
     if @post.destroy
       flash[:notice] = "\"#{@post.title}\" was deleted successfully."
       redirect_to posts_path

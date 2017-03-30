@@ -49,11 +49,11 @@ end
                 role: 'admin' )
 end
 
-# Standard users can not create posts 
-# users = User.where( "role = 0").take(6)
-# 4.times do
-#   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
-# end
+# Standard users can not create posts. (premium user converted back to standard user)
+users = User.where( "role = 0").take(6)
+4.times do
+ users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
+end
 
 # Premium users Public Microposts
 users = User.where( "role = 1").take(6)
@@ -67,7 +67,21 @@ users = User.where( "role = 1").take(6)
   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5), private: true  ) }
 end
 
+# Standard users Collaborators.
+users = User.where( "role = 0").take(2)
+users.each do |user|
+  post=Post.where.not( user: user, private: false).take(2)
+  post.each { |post| Collaborator.create!( user: user, post: post ) }
+end
+
+# Premium users Collaborators.
+users = User.where( "role = 1").take(2)
+users.each do |user|
+  post=Post.where.not( user: user, private: false).take(2)
+  post.each { |post| Collaborator.create!( user: user, post: post ) }
+end
+
 puts "Seed finished"
 puts "#{User.count} users created"
 puts "#{Post.count} posts created"
-
+puts "#{Collaborator.count} collaborators created"

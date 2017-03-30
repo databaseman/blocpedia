@@ -1,19 +1,20 @@
 <h1> Add / Remove Collaborators </h1>
-<h2>Title: <%= @post.title %></h2>
+<h2><strong>Title: <%= @post.title %></strong></h2>
+<%= will_paginate @users %>
 <div class="table table-responsive">
     <table class="table">
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.email %></td>
-        <td>
-          <% if @post.user_collaborators.include?(user) %>
-            <% collaborator = @post.collaborators.where(user_id: user.id).first %>
-            <%= link_to "Remove", [@post, collaborator], method: :delete, class: "btn btn-danger" %>
-          <% else %>
-            <%= link_to "Add", post_collaborators_path(@post, user_id: user.id), method: :post, class: "btn btn-success" %>
-          <% end %>
-        </td>
-      </tr>
-     <% end %>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.email %></td>
+          <td>
+            <% if @post.user_collaborators.include?(user) %>
+              <% collaborator = @post.collaborators.where(user_id: user.id).first %>
+              <%= link_to "Remove", [@post, collaborator], method: :delete, class: "btn btn-danger" %>
+            <% else %>
+              <%= link_to "Add", post_collaborators_path(@post, user_id: user.id), method: :post, class: "btn btn-success" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     </table>
   </div>

@@ -1,7 +1,8 @@
 <h1><%= @post.title %></h1>
 <h2>
-  submitted <%= time_ago_in_words(@post.created_at) %> ago by <%= @post.user.name %> (<%= @post.user.email %>)<br>
-</h2><br>
+  <p><strong>Submitted <%= time_ago_in_words(@post.created_at) %> ago by <%= @post.user.name %> (<%= @post.user.email %>)</strong><p>
+  <p>Updated <%=time_ago_in_words(@post.updated_at) %> ago</p><br>
+</h2>
 
 <% if policy(@post).update? -%>
     <%= link_to "Edit", edit_post_path(@post), class: 'btn btn-success' %>
@@ -14,7 +15,7 @@
 <% end -%>
 <p></p>
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-12">
     <%= markdown(@post.body) %>
   </div>
 </div>
