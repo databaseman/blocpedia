@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  root 'welcome#index'
   get  'about'       => 'welcome#about'
   get  'contact'     => 'welcome#contact'
   get  'help'        => 'welcome#help'
@@ -10,4 +9,8 @@ Rails.application.routes.draw do
   resources :posts do
     resources :collaborators
   end
+  authenticated :user do
+   root 'posts#index', as: :authenticated_root
+  end
+  root 'welcome#index'
 end
