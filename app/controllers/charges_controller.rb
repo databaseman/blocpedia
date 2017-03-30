@@ -6,16 +6,16 @@ class ChargesController < ApplicationController
   end
 
   def downgrade
-    @private_posts = current_user.posts.where("private = 't'") # User private wiki list
+    @private_posts = current_user.posts.where(private: true) # User private wiki list
   end
 
   def downgrade_posts
     #Change User wikis from private to public
-    if ( current_user.posts.update_all( "private = 0" ) && current_user.update_attribute( :role, 0 ) )
-      flash[:notice] = 'Your account has been downgraded to Standard'
+    if ( current_user.posts.update_all( private: false ) && current_user.update( role: 0 ) )
+      flash[:success] = 'Your account has been downgraded to Standard'
       redirect_to root_path
     else
-      flash.now[:alert] = 'There was an error downgrading your account. Please try again.'
+      flash.now[:danger] = 'There was an error downgrading your account. Please try again.'
       render :edit # render the new view again
     end
   end
@@ -53,14 +53,14 @@ class ChargesController < ApplicationController
 
     if charge.paid  # https://stripe.com/docs/api/ruby#charges
       current_user.premium! # prefer using the enum methods for brevity and clarity
-      flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again."
+      flash[:success] = "Payment received from #{current_user.email}."
       redirect_to root_path # or wherever
     end
     # Stripe will send back CardErrors, with friendly messages
     # when something goes wrong.
     # This `rescue block` catches and displays those errors.
     rescue Stripe::CardError => e
-      flash[:alert] = e.message
+      flash[:danger] = e.message
       redirect_to new_charge_path
   end # create
 

@@ -30,6 +30,10 @@ class PostPolicy < ApplicationPolicy
 
   end #Scope
 
+  def premium?
+    user.admin? or user.premium?
+  end
+  
   def edit?
     update?
   end

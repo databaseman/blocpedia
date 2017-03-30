@@ -13,7 +13,7 @@
 <% if policy(@post).collaborate? -%>
     <%= link_to "Collaboration", post_collaborator_path(@post), class: 'btn btn-primary' %>
 <% end -%>
-<p></p>
+<p><br></p>
 <div class="row">
   <div class="col-md-12">
     <%= markdown(@post.body) %>

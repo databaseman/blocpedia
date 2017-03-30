@@ -37,10 +37,10 @@ before_action :authenticate_user!
     @post.private = params[:post][:private] || @post.private
 
     if @post.save # Calling database save/insert command
-      flash[:notice] = 'Post was saved.'
+      flash[:success] = 'Post was saved.'
       redirect_to @post # Redirecting to @post will direct the user to the posts show view.
     else
-      flash.now[:alert] = 'There was an error saving the post. Please try again.'
+      flash.now[:danger] = 'There was an error saving the post. Please try again.'
       render :new # render the new view again
     end
   end
@@ -53,10 +53,10 @@ before_action :authenticate_user!
     @post.user = current_user
 
     if @post.save # Calling database save/insert command
-      flash[:notice] = 'Post was saved.'
+      flash[:success] = 'Post was saved.'
       redirect_to @post # Redirecting to @post will direct the user to the posts show view.
     else
-      flash.now[:alert] = 'There was an error saving the post. Please try again.'
+      flash.now[:danger] = 'There was an error saving the post. Please try again.'
       render :new # render the new view again
     end
   end
@@ -66,10 +66,10 @@ before_action :authenticate_user!
     authorize @post
 
     if @post.destroy
-      flash[:notice] = "\"#{@post.title}\" was deleted successfully."
+      flash[:success] = "\"#{@post.title}\" was deleted successfully."
       redirect_to posts_path
     else
-      flash.now[:alert] = 'There was an error deleting the post.'
+      flash.now[:danger] = 'There was an error deleting the post.'
       render :show
     end
   end

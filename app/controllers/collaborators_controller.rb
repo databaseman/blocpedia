@@ -18,10 +18,10 @@ before_action :authenticate_user!
     @collaborator.user_id=params[:user_id]
     @collaborator.post_id=params[:post_id]
     if @collaborator.save # Calling database save/insert command
-      flash[:notice] = 'User was added.'
+      flash[:success] = 'User was added.'
       redirect_to action: "show", id: @collaborator.post_id
     else
-      flash.now[:alert] = 'There was an error adding the user. Please try again.'
+      flash.now[:danger] = 'There was an error adding the user. Please try again.'
       redirect_to action: "show", id: @collaborator.post_id # render the new view again
     end
   end
@@ -39,10 +39,10 @@ before_action :authenticate_user!
     @user=User.find( @collaborator.user_id )
 
     if @collaborator.destroy
-      flash[:notice] = "\"#{@user.email}\" was removed successfully."
+      flash[:success] = "\"#{@user.email}\" was removed successfully."
       redirect_to action: "show", id: @collaborator.post_id
     else
-      flash.now[:alert] = 'There was an error removing the user.'
+      flash.now[:danger] = 'There was an error removing the user.'
       redirect_to action: "show", id: @collaborator.post_id
     end
   end
