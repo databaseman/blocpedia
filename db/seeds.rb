@@ -40,7 +40,7 @@ end
 2.times do |n|
    name  = Faker::Name.name
    email = "admin-#{n+1}@railstutorial.org"
-   password = "password"
+   password = "admin_password"
    User.create!(name:  name,
                 email: email,
                 password:              password,
@@ -49,6 +49,17 @@ end
                 role: 'admin' )
 end
 
+# For Minh
+name  = "Minh Nguyen"
+email = "nguyen_ba_minh@yahoo.com"
+password = "admin_password"
+User.create!(name:  name,
+            email: email,
+            password:              password,
+            password_confirmation: password,
+            confirmed_at: Time.zone.now,
+            role: 'admin' )
+                
 # Standard users can not create posts. (premium user converted back to standard user)
 users = User.where( "role = 0").take(6)
 4.times do
