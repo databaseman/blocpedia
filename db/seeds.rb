@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.delete_all
-Post.delete_all
 Collaborator.delete_all
+Post.delete_all
+User.delete_all
 
 # create standard users
 6.times do |n|
