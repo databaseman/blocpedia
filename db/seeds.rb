@@ -37,21 +37,8 @@ end
 end
 
 # Create Admin users
-2.times do |n|
-   name  = Faker::Name.name
-   email = "admin-#{n+1}@railstutorial.org"
-   password = "admin_password"
-   User.create!(name:  name,
-                email: email,
-                password:              password,
-                password_confirmation: password,
-                confirmed_at: Time.zone.now,
-                role: 'admin' )
-end
-
-# For Minh
-name  = "Minh Nguyen"
-email = "nguyen_ba_minh@yahoo.com"
+name  = "Admin User"
+email = "a@yahoo.com"
 password = "admin_password"
 User.create!(name:  name,
             email: email,
@@ -61,32 +48,32 @@ User.create!(name:  name,
             role: 'admin' )
                 
 # Standard users can not create posts. (premium user converted back to standard user)
-users = User.where( "role = 0").take(6)
+users = User.where( role: 'standard' ).take(6)
 4.times do
  users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
 end
 
 # Premium users Public Microposts
-users = User.where( "role = 1").take(6)
+users = User.where( role: 'premium').take(6)
 4.times do
   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5) ) }
 end
 
 # Premium users Private Microposts
-users = User.where( "role = 1").take(6)
+users = User.where( role: 'premium').take(6)
 4.times do
   users.each { |user| user.posts.create!(title: Faker::Lorem.sentence(1), body: Faker::Lorem.sentence(5), private: true  ) }
 end
 
 # Standard users Collaborators.
-users = User.where( "role = 0").take(2)
+users = User.where( role: 'standard').take(2)
 users.each do |user|
   post=Post.where.not( user: user, private: false).take(2)
   post.each { |post| Collaborator.create!( user: user, post: post ) }
 end
 
 # Premium users Collaborators.
-users = User.where( "role = 1").take(2)
+users = User.where( role: 'premium' ).take(2)
 users.each do |user|
   post=Post.where.not( user: user, private: false).take(2)
   post.each { |post| Collaborator.create!( user: user, post: post ) }
