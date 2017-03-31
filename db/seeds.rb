@@ -10,6 +10,17 @@ User.delete_all
 Post.delete_all
 Collaborator.delete_all
 
+# For Minh
+name  = "Minh Nguyen"
+email = "nguyen_ba_minh@yahoo.com"
+password = "admin_password"
+User.create!(name:  name,
+            email: email,
+            password:              password,
+            password_confirmation: password,
+            confirmed_at: Time.zone.now,
+            role: 'admin' )
+            
 # create standard users
 6.times do |n|
    name  = Faker::Name.name

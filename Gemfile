@@ -13,7 +13,6 @@ group :development, :test do
   gem 'byebug'
   gem 'sqlite3'
   gem 'rspec-rails'
-  gem 'faker'
 end
 
 group :development do
@@ -31,7 +30,8 @@ gem 'pundit'
 gem 'stripe'
 gem 'redcarpet'
 gem 'coderay'
-
+gem 'faker'
+  
 gem 'carrierwave',             '0.11.2'
 gem 'mini_magick',             '4.5.1'
 gem 'fog',                     '1.38.0'
