@@ -10,8 +10,8 @@ class ChargesController < ApplicationController
   end
 
   def downgrade_posts
-    #Change User wikis from private to public
-    if ( current_user.posts.update_all( private: false ) && current_user.update( role: 0 ) )
+    #Change User wikis from private to public and user to standard
+    if ( current_user.posts.update_all( private: false ) && current_user.standard! )
       flash[:success] = 'Your account has been downgraded to Standard'
       redirect_to root_path
     else
