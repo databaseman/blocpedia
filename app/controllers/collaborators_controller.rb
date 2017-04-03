@@ -7,7 +7,7 @@ before_action :authenticate_user!
   def show
     @post=Post.find(params[:id])
     authorize @post
-    @users=User.where.not( id: current_user.id).paginate(page: params[:page], per_page: 10)
+    @users=User.where.not( id: current_user.id, role: 'admin' ).paginate(page: params[:page], per_page: 10)
   end
 
   def new

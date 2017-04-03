@@ -8,9 +8,11 @@
 
 <ul>
  <% @posts.each do |post| %>
-     <li>
-       <%= link_to post.title, post %>
-     </li>
+    <% if (post.user_id == current_user.id) %>
+      <li><%= link_to post.title, post, class:'mine' %></li>
+    <% else %>
+      <li><%= link_to post.title, post %></li>
+    <% end %> 
  <% end %>
 </ul>
  <%= will_paginate %>
