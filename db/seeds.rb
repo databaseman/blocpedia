@@ -13,7 +13,7 @@ User.delete_all
 # create standard users
 6.times do |n|
    name  = Faker::Name.name
-   email = "standard-#{n+1}@railstutorial.org"
+   email = "standard#{n+1}@yahoo.com"
    password = "password"
    User.create!(name:  name,
                 email: email,
@@ -26,7 +26,7 @@ end
 # Create premium users
 6.times do |n|
    name  = Faker::Name.name
-   email = "premium-#{n+1}@railstutorial.org"
+   email = "premium#{n+1}@yahoo.com"
    password = "password"
    User.create!(name:  name,
                 email: email,
@@ -38,7 +38,7 @@ end
 
 # Create Admin users
 name  = "Admin User"
-email = "a@yahoo.com"
+email = "admin@yahoo.com"
 password = "admin_password"
 User.create!(name:  name,
             email: email,
