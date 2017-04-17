@@ -33,7 +33,7 @@ class PostPolicy < ApplicationPolicy
   def premium?
     user.admin? or user.premium?
   end
-  
+
   def edit?
     update?
   end
@@ -61,7 +61,7 @@ class PostPolicy < ApplicationPolicy
 
   # Can make toggle post privacy if current user is the owner or admin
   def checkbox?
-     ( record.user_id == user.id ) || user.admin?
+     (user.premium? && ( record.user_id == user.id )) || user.admin?
   end
 
 end #Post policy
